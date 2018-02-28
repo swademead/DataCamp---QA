@@ -381,3 +381,92 @@ bonds$credit_factor <- factor(bonds$credit_rating, ordered = TRUE, levels = c("A
 
 # Use str() on bonds again
 str(bonds)
+
+#CHAPTER 5
+# List components
+name <- "Apple and IBM"
+apple <- c(109.49, 109.90, 109.11, 109.95, 111.03)
+ibm <- c(159.82, 160.02, 159.84, 160.35, 164.79)
+cor_matrix <- cor(cbind(apple, ibm))
+
+# Create a list
+portfolio <- list(name, apple, ibm, cor_matrix)
+
+# View your first list
+portfolio
+
+# Add names to your portfolio
+names(portfolio) <- c("portfolio_name", "apple", "ibm", "correlation")
+
+# Print portfolio
+portfolio
+
+# Second and third elements of portfolio
+portfolio[c(2,3)]
+
+# Use $ to get the correlation data
+portfolio$correlation
+
+# Add weight: 20% Apple, 80% IBM
+portfolio$weight <- c(apple = 0.20, ibm = 0.80)
+
+# Print portfolio
+portfolio
+
+# Change the weight variable: 30% Apple, 70% IBM
+portfolio$weight <- c(apple = 0.30, ibm = 0.70)
+
+# Print portfolio to see the changes
+portfolio
+
+# Take a look at portfolio
+portfolio
+
+# Remove the microsoft stock prices from your portfolio
+portfolio$microsoft <- NULL
+
+# Define grouping from year
+grouping <- cash$year
+
+# Split cash on your new grouping
+split_cash <- split(cash, grouping)
+
+# Look at your split_cash list
+split_cash
+
+# Unsplit split_cash to get the original data back.
+original_cash <- unsplit(split_cash, grouping)
+
+# Print original_cash
+original_cash
+
+# Print split_cash
+split_cash
+
+# Print the cash_flow column of B in split_cash
+split_cash$B$cash_flow
+
+# Set the cash_flow column of company A in split_cash to 0
+split_cash$A$cash_flow <- 0
+
+# Use the grouping to unsplit split_cash
+cash_no_A <- unsplit(split_cash, grouping)
+
+# Print cash_no_A
+cash_no_A
+
+# my_matrix and my_factor
+my_matrix <- matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3)
+rownames(my_matrix) <- c("Row1", "Row2")
+colnames(my_matrix) <- c("Col1", "Col2", "Col3")
+
+my_factor <- factor(c("A", "A", "B"), ordered = T, levels = c("A", "B"))
+
+# attributes of my_matrix
+attributes(my_matrix)
+
+# Just the dim attribute of my_matrix
+attr(my_matrix, which = "dim")
+
+# attributes of my_factor
+attributes(my_factor)
