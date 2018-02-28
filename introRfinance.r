@@ -223,3 +223,78 @@ stocks[4:5, "ibm"]
 
 # apple and micr columns
 stocks[, c("apple", "micr")]
+
+#CHAPTER 3
+# Variables
+company <- c("A", "A", "A", "B", "B", "B", "B")
+cash_flow <- c(1000, 4000, 550, 1500, 1100, 750, 6000)
+year <- c(1, 3, 4, 1, 2, 4, 5)
+
+# Data frame
+cash <- data.frame(company, cash_flow, year)
+
+# Print cash
+cash
+
+# Call head() for the first 4 rows
+head(cash, n = 4)
+
+# Call tail() for the last 3 rows
+tail(cash, n = 3)
+
+# Call str()
+str(cash)
+
+# Fix your column names
+colnames(cash) <- c("company", "cash_flow", "year")
+
+# Print out the column names of cash
+names(cash)
+
+# Third row, second column
+cash[3, 2]
+
+# Fifth row of the "year" column
+cash$year[5]
+
+# Select the year column
+cash$year
+
+# Select the cash_flow column and multiply by 2
+cash$cash_flow * 2
+
+# Delete the company column
+cash$company <- NULL
+
+# Print cash again
+cash
+
+# Rows about company B
+subset(cash, company == "B")
+
+# Rows with cash flows due in 1 year
+subset(cash, year == 1)
+
+# Quarter cash flow scenario
+cash$quarter_cash <- cash$cash_flow * 0.25
+
+# Double year scenario
+cash$double_year <- cash$year * 2
+
+# Present value of $4000, in 3 years, at 5%
+present_value_4k <- 4000 * (1 + 0.05)^-3
+
+# Present value of all cash flows
+cash$present_value <- cash$cash_flow * (1 + 0.05)^-cash$year
+
+# Print out cash
+cash
+
+# Total present value of cash
+total_pv <- sum(cash$present_value)
+
+# Company B information
+cash_B <- subset(cash, company == "B")
+
+# Total present value of cash_B
+total_pv_B <- sum(cash_B$present_value)
