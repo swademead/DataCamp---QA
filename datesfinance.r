@@ -342,3 +342,97 @@ for (value in apple) {
         print("Nothing to do here!")
     }
 }
+
+#CHAPTER 4
+# subset help
+?subset
+
+# Sys.time help
+?Sys.time
+
+# Round 5.4
+round(5.4)
+
+# Round 5.4 with 1 decimal place
+round(5.4, digits = 1)
+
+# numbers
+numbers <- c(.002623, pi, 812.33345)
+
+# Round numbers to 3 decimal places
+round(numbers, digits = 3)
+
+# cbind() the stocks
+stocks <- cbind(apple, ibm, micr)
+
+# cor() to create the correlation matrix
+cor(stocks)
+
+# All at once! Nest cbind() inside of cor()
+cor(cbind(apple, ibm, micr))
+
+# Percent to decimal function
+percent_to_decimal <- function(percent) {
+  percent/100  
+}
+
+# Use percent_to_decimal() on 6
+percent_to_decimal(6)
+
+# Example percentage
+pct <- 8
+
+# Use percent_to_decimal() on pct
+percent_to_decimal(pct)
+
+# Percent to decimal function
+percent_to_decimal <- function(percent, digits = 2) {
+    decimal <- percent / 100
+    round(decimal, digits = 2)
+}
+
+# percents
+percents <- c(25.88, 9.045, 6.23)
+
+# percent_to_decimal() with default digits
+percent_to_decimal(percents)
+
+# percent_to_decimal() with digits = 4
+percent_to_decimal(percents, digits = 4)
+
+# Present value function
+pv <- function(cash_flow, i, year) {
+    
+    # Discount multiplier
+    mult <- 1 + percent_to_decimal(i)
+    
+    # Present value calculation
+    cash_flow * mult ^ -year
+}
+
+# Calculate a present value
+pv(1200, 7, 3)
+
+# Library tidquant
+library(tidyquant)
+
+# Pull Apple stock data
+apple <- tq_get("AAPL", get = "stock.prices", 
+                from = "2007-01-03", to = "2017-06-05")
+
+# Take a look at what it returned
+head(apple)
+
+# Plot the stock price over time
+plot(apple$date, apple$adjusted, type = "l")
+
+# Calculate daily stock returns for the adjusted price
+apple <- tq_mutate(data = apple,
+                   ohlc_fun = Ad,
+                   mutate_fun = dailyReturn)
+
+# Sort the returns from least to greatest
+sorted_returns <- sort(apple$daily.returns)
+
+# Plot them
+plot(sorted_returns)
