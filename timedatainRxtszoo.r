@@ -79,3 +79,58 @@ sun <- read.zoo(tmp, sep = ",", FUN = as.yearmon)
 
 # Convert sun into xts. Save this as sun_xts
 sun_xts <- as.xts(sun)
+
+#CHAPTER 2
+# Select all of 2016 from x
+x_2016 <- x["2016"]
+
+# Select January 1, 2016 to March 22, 2016
+jan_march <- x["2016/2016-03-22"]
+
+# Verify that jan_march contains 82 rows
+82 == length(jan_march)
+
+# Extract all data from irreg between 8AM and 10AM
+morn_2010 <- irreg["T08:00/T10:00"]
+
+# Extract the observations in morn_2010 for January 13th, 2010
+morn_2010["2010-01-13"]
+
+# Subset x using the vector dates
+x[dates]
+
+# Subset x using dates as POSIXct
+x[as.POSIXct(dates)]
+
+# Replace the values in x contained in the dates vector with NA
+x[dates] <- NA
+
+# Replace all values in x for dates starting June 9, 2016 with 0
+x["2016-06-09/"] <- 0
+
+# Verify that the value in x for June 11, 2016 is now indeed 0
+x["2016-06-11"]
+
+# Create lastweek using the last 1 week of temps
+lastweek <- last(temps, "1 week")
+
+# Print the last 2 observations in lastweek
+last(lastweek, 2)
+
+# Extract all but the first two days of lastweek
+first(lastweek, "-2 days")
+
+# Extract the first three days of the second week of temps
+first(last(first(temps, "2 weeks"), "1 week"), "3 days")
+
+# Add a and b
+a + b
+
+# Add a with the numeric value of b
+a + as.numeric(b)
+
+# Add a to b, and fill all missing rows of b with 0
+a + merge(b, index(a), fill = 0)
+
+# Add a to b and fill NAs with the last observation
+a + merge(b, index(a), fill = na.locf)
