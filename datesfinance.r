@@ -436,3 +436,85 @@ sorted_returns <- sort(apple$daily.returns)
 
 # Plot them
 plot(sorted_returns)
+
+#CHAPTER 5
+# Print stock_return
+stock_return
+
+# lapply to change percents to decimal
+lapply(stock_return, FUN = percent_to_decimal)
+
+# Print stock_return
+stock_return
+
+# lapply to get the average returns
+lapply(stock_return, mean)
+
+# Sharpe ratio
+sharpe <- function(returns) {
+    (mean(returns) - .0003) / sd(returns)
+}
+
+# lapply to get the sharpe ratio
+lapply(stock_return, sharpe)
+
+# sharpe
+sharpe <- function(returns, rf = 0.0003) {
+    (mean(returns) - rf) / sd(returns)
+}
+
+# First lapply()
+lapply(stock_return, sharpe, rf = 0.0004)
+
+# Second lapply()
+lapply(stock_return, sharpe, rf = 0.0009)
+
+# lapply() on stock_return
+lapply(stock_return, sharpe)
+
+# sapply() on stock_return
+sapply(stock_return, sharpe)
+
+# sapply() on stock_return with optional arguments
+sapply(stock_return,sharpe, simplify = FALSE, USE.NAMES = FALSE)
+
+# Market crash with as.Date()
+market_crash <- list(dow_jones_drop = 777.68, 
+                     date = as.Date("2008-09-28"))
+                     
+# Find the classes with sapply()
+sapply(market_crash, class)
+
+# Market crash with as.POSIXct()
+market_crash2 <- list(dow_jones_drop = 777.68, 
+                      date = as.POSIXct("2008-09-28"))
+
+# Find the classes with lapply()
+lapply(market_crash2, class)
+
+# Find the classes with sapply()
+sapply(market_crash2, class)
+
+# Market crash with as.POSIXct()
+market_crash2 <- list(dow_jones_drop = 777.68, 
+                      date = as.POSIXct("2008-09-28"))
+
+# Find the classes with sapply()
+sapply(market_crash2, class)
+
+# Find the classes with vapply()
+vapply(market_crash2, class, FUN.VALUE = character(1))
+
+# Sharpe ratio for all stocks
+vapply(stock_return, sharpe, FUN.VALUE = numeric(1))
+
+# Summarize Apple
+summary(stock_return$apple)
+
+# Summarize all stocks
+vapply(stock_return, summary, FUN.VALUE = numeric(6))
+
+# Max and min
+vapply(stock_return, 
+       FUN = function(x) { c(max(x), min(x)) }, 
+       FUN.VALUE = numeric(2))
