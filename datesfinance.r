@@ -201,3 +201,144 @@ class(stocks$apple_date) <- "Date"
 
 # Print stocks again
 stocks
+
+#CHAPTER 3
+# Stock price
+stock_price <- 126.34
+
+repeat {
+  # New stock price
+  stock_price <- stock_price * runif(1, .985, 1.01)
+  print(stock_price)
+  
+  # Check
+  if(stock_price < 125) {
+    print("Stock price is below 124.5! Buy it while it's cheap!")
+    break
+  }
+}
+
+# Stock price
+stock_price <- 67.55
+
+repeat {
+  # New stock price
+  stock_price <- stock_price * .995
+  
+  # Check
+  if(stock_price < 66) {
+    print("Stock price is below 66! Buy it while it's cheap!")
+    print(stock_price)
+
+    break
+  }
+  
+}
+
+# Initial debt
+debt <- 5000
+
+# While loop to pay off your debt
+while (debt > 0) {
+  debt <- debt - 500
+  print(paste("Debt remaining", debt))
+}
+
+debt <- 5000    # initial debt
+i <- 0          # x axis counter
+x_axis <- i     # x axis
+y_axis <- debt  # y axis
+
+# Initial plot
+plot(x_axis, y_axis, xlim = c(0,10), ylim = c(0,5000))
+
+# Graph your debt
+while (debt > 0) {
+
+  # Updating variables
+  debt <- debt - 500
+  i <- i + 1
+  x_axis <- c(x_axis, i)
+  y_axis <- c(y_axis, debt)
+  
+  # Next plot
+  plot(x_axis, y_axis, xlim = c(0,10), ylim = c(0,5000))
+}
+
+# debt and cash
+debt <- 5000
+cash <- 4000
+
+# Pay off your debt...if you can!
+while (debt > 0) {
+  debt <- debt - 500
+  cash <- cash - 500
+  print(paste("Debt remaining:", debt, "and Cash remaining:", cash))
+
+  if (cash == 0) {
+    print("You ran out of cash!")
+     break
+  }
+}
+
+# Sequence
+seq <- c(1:10)
+
+# Print loop
+for (value in seq) {
+    print(value)
+}
+
+# A sum variable
+sum <- 0
+
+# Sum loop
+for (value in seq) {
+    sum <- sum + value
+    print(sum)
+}
+# Sequence
+seq <- c(1:10)
+
+# Print loop
+for (value in seq) {
+    print(value)
+}
+
+# A sum variable
+sum <- 0
+
+# Sum loop
+for (value in seq) {
+    sum <- sum + value
+    print(sum)
+}
+
+# Print out corr
+corr
+
+# Create a nested loop
+for(row in 1:nrow(corr)) {
+    for(col in 1:ncol(corr)) {
+        print(paste(colnames(corr)[col], "and", rownames(corr)[row], 
+                    "have a correlation of", corr[row,col]))
+    }
+}
+
+# Print apple
+apple
+
+# Loop through apple. Next if NA. Break if above 117.
+for (value in apple) {
+    if(is.na(value)) {
+        print("Skipping NA")
+        next
+    }
+    
+    if(value > 117) {
+        print("Time to sell!")
+        break
+    } else {
+        print("Nothing to do here!")
+    }
+}
