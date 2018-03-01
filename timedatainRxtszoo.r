@@ -134,3 +134,43 @@ a + merge(b, index(a), fill = 0)
 
 # Add a to b and fill NAs with the last observation
 a + merge(b, index(a), fill = na.locf)
+
+#CHAPTER 3
+# Perform an inner join of a and b
+merge(a, b, join = "inner")
+
+# Perform a left-join of a and b, fill missing values with 0
+merge(a, b, join = "left", fill = 0)
+
+# Row bind temps_june30 to temps, assign this to temps2
+temps2 <- rbind(temps_june30, temps)
+
+# Row bind temps_july17 and temps_july18 to temps2, call this temps3
+temps3 <- rbind(temps_july17, temps_july18, temps2)
+
+# Fill missing values in temps using the last observation
+temps_last <- na.locf(temps)
+
+# Fill missing values in temps using the next observation
+temps_next <- na.locf(temps, fromLast = TRUE)
+
+# Interpolate NAs using linear approximation
+na.approx(AirPass)
+
+# Create a leading object called lead_x
+lead_x <- lag(x, k = -1)
+
+# Create a lagging object called lag_x
+lag_x <- lag(x, k = 1)
+
+# Merge your three series together and assign to z
+z <- merge(lead_x, x, lag_x)
+
+# Calculate the first difference of AirPass and assign to diff_by_hand
+diff_by_hand <- AirPass - lag(AirPass)
+
+# Use merge to compare the first parts of diff_by_hand and diff(AirPass)
+merge(head(diff_by_hand), head(diff(AirPass)))
+
+# Calculate the first order 12 month difference of AirPass
+diff(AirPass, lag = 12, differences = 1)
