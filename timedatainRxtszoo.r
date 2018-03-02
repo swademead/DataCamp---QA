@@ -222,3 +222,69 @@ edhec_xts <- do.call(rbind, edhec_ytd)
 
 # Use rollapply to calculate the rolling 3 period sd of eq_mkt
 eq_sd <- rollapply(eq_mkt, 3, FUN = sd)
+
+#CHAPTER 5
+# View the first three indexes of temps
+index(temps)[1:3]
+
+# Get the index class of temps
+indexClass(temps)
+
+# Get the timezone of temps
+indexTZ(temps)
+
+# Change the format of the time display
+indexFormat(temps) <- "%b-%d-%Y"
+
+# View the new format
+head(temps)
+
+# Construct times_xts with tzone set to America/Chicago
+times_xts <- xts(1:10, order.by = times, tzone = "America/Chicago")
+
+# Change the time zone of times_xts to Asia/Hong_Kong
+tzone(times_xts) <- "Asia/Hong_Kong"
+  
+# Extract the current time zone of times_xts
+indexTZ(times_xts)
+
+# Calculate the periodicity of temps
+periodicity(temps)
+
+# Calculate the periodicity of edhec
+periodicity(edhec)
+
+# Convert edhec to yearly
+edhec_yearly <- to.yearly(edhec)
+
+# Calculate the periodicity of edhec_yearly
+periodicity(edhec_yearly)
+
+# Count the months
+nmonths(edhec)
+
+# Count the quarters
+nquarters(edhec)
+
+# Count the years
+nyears(edhec)
+
+# Explore underlying units of temps in two commands: .index() and .indexwday()
+.index(temps)
+.indexwday(temps)
+
+# Create an index of weekend days using which()
+index <- which(.indexwday(temps) == 6 | .indexwday(temps) == 0)
+
+# Select the index
+temps[index]
+
+# Make z have unique timestamps
+z_unique <- make.index.unique(z, eps = 1e-4)
+
+# Remove duplicate times in z
+z_dup <- make.index.unique(z, drop = TRUE)
+
+# Round observations in z to the next hour
+z_round <- align.time(z, n = 3600)
+
