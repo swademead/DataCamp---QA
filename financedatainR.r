@@ -170,3 +170,76 @@ close_data <- do.call(merge, eapply(data_env, Cl))
 
 # View the head of close_data
 head(close_data)
+
+#CHAPTER 3
+# Set the default to pull data from Google Finance
+setDefaults(getSymbols, src = "google")
+
+# Get GOOG data
+getSymbols("GOOG")
+
+# Verify the data was actually pulled from Google Finance
+str(GOOG)
+
+# Look at getSymbols.yahoo arguments
+args(getSymbols.yahoo)
+
+# Set default 'from' value for getSymbols.yahoo
+setDefaults(getSymbols.yahoo, from = "2000-01-01")
+
+# Confirm defaults were set correctly
+getDefaults("getSymbols.yahoo")
+
+# Look at the first few rows of CP
+head(CP)
+
+# Set the source for CP to FRED
+setSymbolLookup(getSymbols, src = "FRED")
+
+# Load CP data again
+getSymbols("CP")
+
+# Look at the first few rows of CP
+head(CP)
+
+# Save symbol lookup table
+saveSymbolLookup("my_symbol_lookup.rda")
+
+# Set default source for CP to "yahoo"
+setSymbolLookup(CP = "yahoo")
+
+# Verify the default source is "yahoo"
+getSymbolLookup("CP")
+
+# Load symbol lookup table
+loadSymbolLookup("my_symbol_lookup.rda")
+
+# Verify the default source is "FRED"
+getSymbolLookup("CP")
+
+# Load BRK-A data
+getSymbols("BRK-A")
+
+# Use backticks and head() to look at the loaded data
+head(`BRK-A`)
+
+# Use get() to assign the BRK-A data to an object named BRK.A
+BRK.A <- get("BRK-A")
+
+# Create BRK.A object
+BRK.A <- getSymbols("BRK-A", auto.assign = FALSE)
+
+# Create col_names object with the column names of BRK.A
+col_names <- colnames(BRK.A)
+
+# Set BRK.A column names to syntactically valid names
+colnames(BRK.A) <- make.names(col_names)
+
+# Set name for BRK-A to BRK.A
+setSymbolLookup(BRK.A = list(name = "BRK-A"))
+
+# Set name for T (AT&T) to ATT
+setSymbolLookup(ATT = list(name = "T"))
+
+# Load BRK.A and ATT data
+getSymbols(c("BRK.A", "ATT"))
