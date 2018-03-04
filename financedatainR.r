@@ -350,3 +350,118 @@ xts_10min <-to.period(intraday_xts, period = "minutes", k = 10)
 
 # Convert raw prices to 1-hour prices
 xts_1hour <- to.period(intraday_xts, period = "hours", k = 1)
+
+#CHAPTER 5
+# Load AMZN.csv
+getSymbols("AMZN", src = "csv")
+
+# Look at AMZN structure
+str(AMZN)
+
+# Import AMZN.csv using read.zoo
+amzn_zoo <- read.zoo("AMZN.csv", sep = ",", header = TRUE)
+
+# Convert to xts
+amzn_xts <- as.xts(amzn_zoo)
+
+# Look at the first few rows of amzn_xts
+head(amzn_xts)
+
+# Read data with read.csv
+une_data <- read.csv("UNE.csv", nrows = 5)
+
+# Look at the structure of une_data
+str(une_data)
+
+# Read data with read.zoo, specifying index columns
+une_zoo <- read.zoo("UNE.csv", index.column = c("Date", "Time"), sep = ",", header = TRUE)
+
+# Look at first few rows of data
+head(une_zoo)
+
+# Read data with read.csv
+two_symbols_data <- read.csv("two_symbols.csv", nrows = 5)
+
+# Look at the structure of two_symbols_data
+str(two_symbols_data)
+
+# Read data with read.zoo, specifying index columns
+two_symbols_zoo <- read.zoo("two_symbols.csv", split = c("Symbol", "Type"), sep = ",", header = TRUE)
+
+# Look at first few rows of data
+head(two_symbols_zoo)
+
+# fill NA using last observation carried forward
+locf <- na.locf(DGS10)
+
+# fill NA using linear interpolation
+approx <- na.approx(DGS10)
+
+# fill NA using spline interpolation
+spline <- na.spline(DGS10)
+
+# merge into one object
+na_filled <- merge(locf, approx, spline)
+
+# plot combined object
+plot(na_filled, col = c("black", "red", "green"))
+
+# Look at the last few rows of AAPL data
+tail(AAPL)
+
+# Plot close price
+plot(AAPL$AAPL.Close)
+
+# Plot adjusted close price
+plot(AAPL$AAPL.Adjusted)
+
+# Look at first few rows aapl_yahoo
+head(aapl_yahoo)
+
+# Look at first few rows aapl_google
+head(aapl_google)
+
+# Plot difference between Yahoo adjusted close and Google close
+plot(Ad(aapl_yahoo) - Cl(aapl_google))
+
+# Plot difference between volume from Yahoo and Google
+plot(Vo(aapl_yahoo) - Vo(aapl_google))
+
+# Look at first few rows of AAPL
+head(AAPL)
+
+# Adjust AAPL for splits and dividends
+aapl_adjusted <- adjustOHLC(AAPL)
+
+# Look at first few rows of aapl_adjusted
+head(aapl_adjusted)
+
+# Download AAPL split data
+splits <- getSplits("AAPL")
+
+# Print the splits object
+splits
+
+# Download AAPL dividend data
+dividends <- getDividends("AAPL")
+
+# Look at the first few rows of dividends
+head(dividends)
+
+# Download unadjusted AAPL dividend data
+raw_dividends <- getDividends("AAPL", split.adjust = FALSE)
+
+# Look at the first few rows of raw_dividends
+head(raw_dividends)
+
+# Calculate split and dividend adjustment ratios
+ratios <- adjRatios(splits = splits, dividends = raw_dividends, close = Cl(AAPL))
+
+# Calculate adjusted close for AAPL
+aapl_adjusted <- Cl(AAPL) * ratios[, "Split"] * ratios[, "Div"]
+
+# Look at first few rows of Yahoo adjusted close
+head(Ad(AAPL))
+
+# Look at first few rows of aapl_adjusted
+head(aapl_adjusted)
