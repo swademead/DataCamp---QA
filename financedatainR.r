@@ -243,3 +243,110 @@ setSymbolLookup(ATT = list(name = "T"))
 
 # Load BRK.A and ATT data
 getSymbols(c("BRK.A", "ATT"))
+
+#CHAPTER 4
+# Extract the start date of the series
+start_date <- start(irregular_xts)
+
+# Extract the end date of the series
+end_date <- end(irregular_xts)
+
+# Create a regular date sequence
+regular_index <- seq(from = start_date, to = end_date, by = "day")
+
+# Create a zero-width xts object
+regular_xts <- xts(,order.by = regular_index)
+
+# Merge irregular_xts and regular_xts
+merged_xts <- merge(irregular_xts, regular_xts)
+
+# Look at the first few rows of merged_xts
+head(merged_xts)
+
+# Use the fill argument to fill NA with their previous value
+merged_filled_xts <- merge(irregular_xts, regular_xts, fill = na.locf)
+
+# Look at the first few rows of merged_filled_xts
+head(merged_filled_xts)
+
+# Aggregate DFF to monthly
+monthly_fedfunds <- apply.monthly(DFF, mean)
+
+# Convert index to yearmon
+index(monthly_fedfunds) <- as.yearmon(index(monthly_fedfunds))
+
+
+# Merge FEDFUNDS with the monthly aggregate
+merged_fedfunds <- merge(FEDFUNDS, monthly_fedfunds)
+
+# Look at the first few rows of the merged object
+head(merged_fedfunds)
+
+# Look at the first few rows of merged_fedfunds
+head(merged_fedfunds)
+
+# Fill NA forward
+merged_fedfunds_locf <- na.locf(merged_fedfunds)
+
+# Extract index values containing last day of month
+aligned_last_day <- merged_fedfunds_locf[index(monthly_fedfunds)]
+
+# Fill NA backward
+merged_fedfunds_locb <- na.locf(merged_fedfunds, fromLast = TRUE)
+
+# Extract index values containing first day of month
+aligned_first_day <- merged_fedfunds_locb[index(FEDFUNDS)]
+
+# Extract index weekdays
+index_weekdays <- .indexwday(DFF)
+
+# Find locations of Wednesdays
+wednesdays <- which(index_weekdays == 3)
+
+# Create custom end points
+end_points <- c(0, wednesdays, length(index_weekdays))
+
+# Calculate weekly mean using custom end points
+weekly_mean <- period.apply(DFF, end_points, mean)
+
+# Create merged object with a Europe/London timezone
+tz_london <- merge(london, chicago)
+
+# Look at tz_london structure
+str(tz_london)
+
+# Create merged object with a America/Chicago timezone
+tz_chicago <- merge(chicago, london)
+
+# Look at tz_chicago structure
+str(tz_chicago)
+
+# Create a regular date-time sequence
+regular_index <- seq(as.POSIXct("2010-01-04 09:00"), as.POSIXct("2010-01-08 16:00"), by = "30 min")
+
+# Create a zero-width xts object
+regular_xts <- xts(, order.by = regular_index)
+
+# Merge irregular_xts and regular_xts, filling NA with their previous value
+merged_xts <- merge(irregular_xts, regular_xts, fill = na.locf)
+
+# Subset to trading day (9AM - 4PM)
+trade_day <- merged_xts["T09:00/T16:00"]
+
+# Split trade_day into days
+daily_list <- split(trade_day , f = "days")
+
+# Use lapply to call na.locf for each day in daily_list
+daily_filled <- lapply(daily_list, FUN = na.locf)
+
+# Use do.call to rbind the results
+filled_by_trade_day <- do.call(rbind, daily_filled)
+
+# Convert raw prices to 5-second prices
+xts_5sec <- to.period(intraday_xts, period = "seconds", k = 5)
+
+# Convert raw prices to 10-minute prices
+xts_10min <-to.period(intraday_xts, period = "minutes", k = 10)
+
+# Convert raw prices to 1-hour prices
+xts_1hour <- to.period(intraday_xts, period = "hours", k = 1)
