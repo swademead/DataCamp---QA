@@ -122,3 +122,66 @@ acf2(oil_returns)
 
 # Assuming both P/ACF are tailing, fit a model to oil_returns
 sarima(oil_returns, 1, 0, 1)
+
+#CHAPTER 3
+# Plot x
+plot(x)
+
+# Plot the P/ACF pair of x
+acf2(x)
+
+# Plot the differenced data
+acf2(diff(x))
+
+# Plot the P/ACF pair of the differenced data
+plot(diff(x))
+
+# Plot sample P/ACF of differenced data and determine model
+acf2(diff(x))
+
+
+# Estimate parameters and examine output
+sarima(x, 2, 1, 0)
+
+# Plot the sample P/ACF pair of the differenced data 
+acf2(diff(globtemp))
+
+# Fit an ARIMA(1,1,1) model to globtemp
+sarima(globtemp, 1, 1, 1)
+
+# Fit an ARIMA(0,1,2) model to globtemp. Which model is better?
+sarima(globtemp, 0, 1, 2)
+
+# Plot sample P/ACF pair of the differenced data
+acf2(diff(x))
+
+# Fit the first model, compare parameters, check diagnostics
+sarima(x, 0, 1, 1)
+
+# Fit the second model and compare fit
+sarima(x, 0, 1, 2)
+
+# Fit ARIMA(0,1,2) to globtemp and check diagnostics  
+ sarima(globtemp, 0, 1, 2)
+
+# Fit ARIMA(1,1,1) to globtemp and check diagnostics
+sarima(globtemp, 1, 1, 1)
+
+# Which is the better model?
+"ARIMA(0, 1, 2)"
+
+# Plot P/ACF pair of differenced data 
+acf2(diff(x))
+
+# Fit model - check t-table and diagnostics
+sarima(x, 1, 1, 0)
+
+# Forecast the data 20 time periods ahead
+sarima.for(x, n.ahead = 20, p = 1, d = 1, q = 0) 
+lines(y)  
+
+# Fit an ARIMA(0,1,2) to globtemp and check the fit
+sarima(globtemp, 0, 1, 2)
+
+# Forecast data 35 years into the future
+ sarima.for(globtemp, n.ahead = 35, 0, 1, 2)
