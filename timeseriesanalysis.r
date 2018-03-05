@@ -289,3 +289,82 @@ acf(y)
 
 # View the ACF of z
 acf(z)
+
+#CHAPTER 4
+# Simulate an AR model with 0.5 slope
+x <- arima.sim(model = list(ar = 0.5), n = 100)
+
+# Simulate an AR model with 0.9 slope
+y <- arima.sim(model = list(ar = 0.9), n = 100)
+
+# Simulate an AR model with -0.75 slope
+z <- arima.sim(model = list(ar = -0.75), n = 100)
+
+# Plot your simulated data
+plot.ts(cbind(x, y, z))
+
+# Calculate the ACF for x
+acf(x)
+
+# Calculate the ACF for y
+acf(y)
+
+# Calculate the ACF for z
+acf(z)
+
+# Simulate and plot AR model with slope 0.9 
+x <- arima.sim(model = list(ar = 0.9), n = 200)
+ts.plot(x)
+acf(x)
+
+# Simulate and plot AR model with slope 0.98
+y <- arima.sim(model = list(ar = 0.98), n = 200)
+ts.plot(y)
+acf(y)
+
+# Simulate and plot RW model
+z <- arima.sim(model = list(order = c(0, 1, 0)), n = 200)
+ts.plot(z)
+acf(z)
+
+# Fit the AR model to x
+arima(x, order = c(1, 0 ,0))
+
+# Copy and paste the slope (ar1) estimate
+0.8575
+
+# Copy and paste the slope mean (intercept) estimate
+-0.0948
+
+# Copy and paste the innovation variance (sigma^2) estimate
+1.022
+
+# Fit the AR model to AirPassengers
+AR <- arima(AirPassengers, order = c(1, 0, 0))
+print(AR)
+
+# Run the following commands to plot the series and fitted values
+ts.plot(AirPassengers)
+AR_fitted <- AirPassengers - residuals(AR)
+points(AR_fitted, type = "l", col = 2, lty = 2)
+
+# Fit an AR model to Nile
+AR_fit <-arima(Nile, order  = c(1, 0, 0))
+print(AR_fit)
+
+# Use predict() to make a 1-step forecast
+predict_AR <- predict(AR_fit)
+
+# Obtain the 1-step forecast using $pred[1]
+predict_AR$pred[1]
+
+# Use predict to make 1-step through 10-step forecasts
+predict(AR_fit, n.ahead = 10)
+
+# Run to plot the Nile series plus the forecast and 95% prediction intervals
+ts.plot(Nile, xlim = c(1871, 1980))
+AR_forecast <- predict(AR_fit, n.ahead = 10)$pred
+AR_forecast_se <- predict(AR_fit, n.ahead = 10)$se
+points(AR_forecast, type = "l", col = 2)
+points(AR_forecast - 2*AR_forecast_se, type = "l", col = 2, lty = 2)
+points(AR_forecast + 2*AR_forecast_se, type = "l", col = 2, lty = 2)
