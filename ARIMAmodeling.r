@@ -186,7 +186,7 @@ sarima(globtemp, 0, 1, 2)
 # Forecast data 35 years into the future
  sarima.for(globtemp, n.ahead = 35, 0, 1, 2)
 
-#CHAPTER 5
+#CHAPTER 4
 # # Plot sample P/ACF to lag 60 and compare to the true values
 acf2(x, max.lag = 60)
 
