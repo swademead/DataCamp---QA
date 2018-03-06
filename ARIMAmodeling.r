@@ -185,3 +185,76 @@ sarima(globtemp, 0, 1, 2)
 
 # Forecast data 35 years into the future
  sarima.for(globtemp, n.ahead = 35, 0, 1, 2)
+
+#CHAPTER 5
+# # Plot sample P/ACF to lag 60 and compare to the true values
+acf2(x, max.lag = 60)
+
+# Fit the seasonal model to x
+sarima(x, p = 0, d = 0, q = 0, P = 1, D = 0, Q = 1, S = 12)
+
+# Plot sample P/ACF pair to lag 60 and compare to actual
+acf2(x, max.lag = 60)
+
+# Fit the seasonal model to x
+sarima(x, 0, 0, 1, 0, 0, 1, 12)
+
+# Plot unemp 
+plot(unemp)
+
+# Difference your data and plot it
+d_unemp <- diff(unemp)
+plot(d_unemp)
+
+# Seasonally difference d_unemp and plot it
+dd_unemp <- diff(d_unemp, lag = 12)
+plot(dd_unemp)
+
+# Plot unemp 
+plot(unemp)
+
+# Difference your data and plot it
+d_unemp <- diff(unemp)
+plot(d_unemp)
+
+# Seasonally difference d_unemp and plot it
+dd_unemp <- diff(d_unemp, lag = 12)
+plot(dd_unemp)
+
+# Plot differenced chicken
+plot(diff(chicken))
+
+# Plot P/ACF pair of differenced data to lag 60
+acf2(diff(chicken), max.lag = 60)
+
+# Fit ARIMA(2,1,0) to chicken - not so good
+sarima(chicken, 2, 1, 0)
+
+# Fit SARIMA(2,1,0,1,0,0,12) to chicken - that works
+sarima(chicken, 2, 1, 0, 1, 0, 0, 12)
+
+# Plot P/ACF to lag 60 of differenced data
+d_birth <- diff(birth)
+acf2(d_birth, max.lag = 60)
+
+# Plot P/ACF to lag 60 of seasonal differenced data
+dd_birth <- diff(d_birth, lag = 12)
+acf2(dd_birth, max.lag = 60)
+
+# Fit SARIMA(0,1,1)x(0,1,1)_12. What happens?
+sarima(birth, 0, 1, 1, 0, 1, 1, 12)
+
+# Add AR term and conclude
+sarima(birth, 1, 1, 1, 0, 1, 1, 12)
+
+# Fit your previous model to unemp and check the diagnostics
+sarima(unemp, 2, 1, 0, 0, 1, 1, 12)
+
+# Forecast the data 3 years into the future
+sarima.for(unemp, n.ahead = 36, 2, 1, 0, 0, 1, 1, 12)
+
+# Fit the chicken model again and check diagnostics
+sarima(chicken, 2, 1, 0, 1, 0, 0, 12)
+
+# Forecast the chicken data 5 years into the future
+sarima.for(chicken, n.ahead = 60, 2, 1, 0, 1, 0, 0, 12)
