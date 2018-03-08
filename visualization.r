@@ -90,3 +90,75 @@ citi <- paste0("Citigroup div. of ", citi_div_value," on ", citi_div_date)
 
 # Create the legend in the bottom right corner
 legend(x = "bottomright", legend = c(micro, citi), col = c("black", "orange"), lty = c(1, 1))
+
+#CHAPTER 2
+# Plot Apple's stock price 
+plot(data, main = "Apple stock price")
+
+# Create a time series called rtn
+rtn <- ROC(data)
+
+# Plot Apple daily price and daily returns 
+par(mfrow = c(1,2))
+plot(data, main = "Apple stock price")
+plot(rtn)
+
+# Create a histogram of Apple stock returns
+hist(rtn, main = "Apple stock return distribution", probability = TRUE)
+
+# Add a density line
+lines(density(rtn))
+
+# Redraw a thicker, red density line
+lines(density(rtn), col = "red", lwd = 2)
+
+# Draw box and whisker plot for the Apple returns
+boxplot(rtn)
+
+# Draw a box and whisker plot of a normal distribution
+boxplot(rnorm(1000))
+
+# Redraw both plots on the same graphical window
+par(mfrow = c(2, 1))
+boxplot(rtn, horizontal = TRUE)
+boxplot(rnorm(1000), horizontal = TRUE)
+
+# Draw autocorrelation plot
+acf(rtn, main = "Apple return autocorrelation")
+
+# Redraw with a maximum lag of 10
+acf(rtn, main = "Apple return autocorrelation", lag.max = 10)
+
+# Create q-q plot
+qqnorm(rtn, main = "Apple return QQ-plot")
+
+# Add a red line showing normality
+qqline(rtn, col = "red")
+
+# Draw histogram and add red density line
+hist(rtn, probability = TRUE)
+lines(density(rtn), col = "red")
+
+# Draw box and whisker plot
+boxplot(rtn)
+
+# Draw autocorrelogram
+acf(rtn)
+
+# Draw q-q plot and add a red line for normality
+qqnorm(rtn)
+qqline(rtn, col = "red")
+
+# Set up 2x2 graphical window
+par(mfrow = c(2, 2))
+
+# Recreate all four plots
+hist(rtn, probability = TRUE)
+lines(density(rtn), col = "red")
+
+boxplot(rtn)
+
+acf(rtn)
+
+qqnorm(rtn)
+qqline(rtn, col = "red")
