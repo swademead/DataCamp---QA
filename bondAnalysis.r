@@ -145,3 +145,49 @@ ytm <- function(cf) {
 
 # Use ytm() function to find yield
 ytm(cf)
+
+#CHAPTER 3
+# Calculate the PV01
+abs(bondprc(100, 0.1, 20, 0.1001) - bondprc(100, 0.1, 20, 0.1))
+
+# Calculate bond price today
+px <- bondprc(p = 100, r = 0.1, ttm = 20, y = 0.1)
+px
+
+# Calculate bond price if yields increase by 1%
+px_up <- bondprc(100, 0.1, 20, 0.11)
+px_up
+
+# Calculate bond price if yields decrease by 1%
+px_down <- bondprc(100, 0.1, 20, 0.09)
+px_down
+
+# Calculate approximate duration
+duration <- -(px_up - px_down) / (2 * px * 0.01)
+duration
+
+# Estimate percentage change
+duration_pct_change <- -duration * -0.01
+duration_pct_change
+
+# Estimate dollar change
+duration_dollar_change <- duration_pct_change * 100
+duration_dollar_change
+
+# Calculate approximate convexity
+convexity <- (px_up + px_down - 2 * px) / (px * (0.01)^2)
+convexity
+
+# Estimate percentage change
+convexity_pct_change <- 0.5 * convexity * (-0.01)^2
+convexity_pct_change
+
+# Estimate dollar change
+convexity_dollar_change <- convexity_pct_change * px
+convexity_dollar_change
+
+# Estimate change in price
+price_change <- duration_dollar_change + convexity_dollar_change
+
+# Estimate price
+price <- px + duration_dollar_change + convexity_dollar_change
