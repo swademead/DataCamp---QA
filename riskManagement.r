@@ -274,3 +274,135 @@ apply(zcbx2_m, 2, kurtosis)
 # Conduct the Jarque-Bera test on each series in zcbx_m and zcbx2_m
 apply(zcbx_m, 2, jarque.test)
 apply(zcbx2_m, 2, jarque.test)
+
+#CHAPTER 3
+# Compute the length n of djx 
+n <- length(djx)
+
+#  Generate a normal sample of size n with parameters given by npars
+ndata <- rnorm(n)*npars[2] + npars[1]
+
+# Generate a t-distributed sample of size n with paramaters given by tpars
+tdata <- rt(n, df = tpars[1])*tpars[3] + tpars[2]
+
+# Make ndata and tdata into xts objects
+ndatax <- xts(ndata, time(djx))
+tdatax <- xts(tdata, time(djx))
+
+# Merge djx, ndatax, and tdatax and plot
+alldata <- merge(djx, ndatax, tdatax)
+plot.zoo(alldata, type= "h", ylim = range(alldata))
+
+# Set up a plot region to show 3 plots at a time
+par(mfrow = c(3, 1))
+
+# Plot the acfs of djx, ndata and tdata
+acf(djx)
+acf(ndata)
+acf(tdata)
+
+# Plot the acfs of the absolute values
+acf(abs(djx))
+acf(abs(ndata))
+acf(abs(tdata))
+
+# Plot the acfs of the squares of the values
+acf(djx^2)
+acf(ndata^2)
+acf(tdata^2)
+
+# Apply the Ljung-Box test to djx
+Box.test(djx, lag = 10, type = "Ljung")
+
+# Apply the Ljung-Box test to absolute values of djx
+Box.test(abs(djx), lag = 10, type = "Ljung")
+
+# Apply the Ljung-Box test to all return series in djall
+apply(djall, 2, Box.test, lag = 10, type = "Ljung")
+
+# Apply the Ljung-Box test to absolute values of all returns in djall
+apply(abs(djall), 2, Box.test, lag = 10, type = "Ljung")
+
+# Create monthly log-returns from djx
+djx_m <- apply.monthly(djx, sum)
+
+# Apply Ljung-Box tests to raw and absolute values of djx_m
+Box.test(djx_m, lag = 10, type = "Ljung")
+Box.test(abs(djx_m), lag = 10, type = "Ljung")
+
+# Create monthly log-returns from djall
+djall_m <- apply.monthly(djall, colSums)
+
+# Apply Ljung-Box tests to raw and absolute values of djall_m
+apply(djall_m, 2, Box.test, lag = 10, type = "Ljung")
+apply(abs(djall_m), 2, Box.test, lag = 10, type = "Ljung")
+
+# Partition plotting area into 3 pieces
+par(mfrow = c(1, 3))
+
+# Plot djx_extremes
+plot(djx_extremes, type = "h")
+
+# Compute the spaces between the times of the extremes
+djx_spaces <-diff(time(djx_extremes))
+
+# Make a histogram of these spaces
+hist(as.numeric(djx_spaces))
+
+# Make a Q-Q plot of djx_spaces against exp_quantiles
+qqplot(exp_quantiles, djx_spaces)
+
+# Carry out the previous 4 steps for iid_extremes
+plot(iid_extremes, type = "h")
+iid_spaces <- diff(time(iid_extremes))
+hist(as.numeric(iid_spaces))
+qqplot(exp_quantiles, iid_spaces)
+
+# Make a time series plot of indexes with plot.zoo and a pairwise scatterplot with pairs
+plot.zoo(indexes)
+pairs(as.zoo(indexes))
+
+# Calculate the sample correlation matrix of indexes
+cor(indexes)
+
+# Plot the sample acfs and cross-correlation functions for the returns in indexes
+acf(indexes)
+
+# Plots the sample acfs and cross-correlations functions for the absolute values of indexes
+acf(abs(indexes))
+
+# Plot fx and fx_w
+plot.zoo(fx, type = "h")
+plot.zoo(fx_w, type = "h")
+
+# Make acf plots of fx and the absolute values of fx
+acf(fx)
+acf(abs(fx))
+
+# Apply the Ljung-Box test to the components of fx and their absolute values
+apply(fx, 2, Box.test, lag = 10, type = "Ljung")
+apply(abs(fx), 2, Box.test, lag = 10, type = "Ljung")
+
+# Make acf plots of fx_w and the absolute values of fx_w
+acf(fx_w)
+acf(abs(fx_w))
+
+# Apply the Ljung-Box test to the components of fx_w and their absolute values
+apply(fx_w, 2, Box.test, lag = 10, type = "Ljung")
+apply(abs(fx_w), 2, Box.test, lag = 10, type = "Ljung")
+
+# Make acf plots of zcb_x and the absolute values of zcb_x
+acf(zcb_x)
+acf(abs(zcb_x))
+
+# Apply the Ljung-Box test to the components of zcb_x and their absolute values
+apply(zcb_x, 2, Box.test, lag = 10, type = "Ljung")
+apply(abs(zcb_x), 2, Box.test, lag = 10, type = "Ljung")
+
+# Make acf plots of zcbx_m and the absolute values of zcbx_m
+acf(zcbx_m)
+acf(abs(zcbx_m))
+
+# Apply the Ljung-Box test to the components of zcbx_m and their absolute values
+apply(zcbx_m, 2, Box.test, lag = 10, type = "Ljung")
+apply(abs(zcbx_m), 2, Box.test, lag = 10, type = "Ljung")
