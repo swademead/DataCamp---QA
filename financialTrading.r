@@ -344,3 +344,51 @@ add.rule(strategy = strategy.st, name = "ruleSignal",
                           # The maxSize argument should be equal to tradesize as well
                           maxSize = tradesize),
          type = "enter")
+
+#CHAPTER 6
+# Use applyStrategy() to apply your strategy. Save this to out
+out <- applyStrategy(strategy = strategy.st, portfolios = portfolio.st)
+
+# Update your portfolio (portfolio.st)
+updatePortf(portfolio.st)
+daterange <- time(getPortfolio(portfolio.st)$summary)[-1]
+
+# Update your account (account.st)
+updateAcct(account.st, daterange)
+updateEndEq(account.st)
+
+# Get the tradeStats for your portfolio
+tstats <- tradeStats(Portfolios = portfolio.st)
+
+# Print the profit factor
+tstats$Profit.Factor
+
+# Use chart.Posn to view your system's performance on SPY
+chart.Posn(Portfolio = portfolio.st, Symbol = "SPY")
+
+# Compute the SMA50
+sma50 <- SMA(x = Cl(SPY), n = 50)
+
+# Compute the SMA200
+sma200 <- SMA(x = Cl(SPY), n = 200)
+
+# Compute the DVO_2_126 with an navg of 2 and a percentlookback of 126
+dvo <- DVO(HLC = HLC(SPY), navg = 2, percentlookback = 126)
+
+# Recreate the chart.Posn of the strategy from the previous exercise
+chart.Posn(Portfolio = portfolio.st, Symbol = "SPY")
+
+# Overlay the SMA50 on your plot as a blue line
+add_TA(sma50, on = 1, col = "blue")
+
+# Overlay the SMA200 on your plot as a red line
+add_TA(sma200, on = 1, col = "red")
+
+# Add the DVO_2_126 to the plot in a new window
+add_TA(dvo)
+
+# Get instrument returns
+instrets <- PortfReturns(portfolio.st)
+
+# Compute Sharpe ratio from returns
+SharpeRatio.annualized(instrets, geometric = FALSE)
