@@ -245,3 +245,102 @@ add.signal(strategy.st, name = "sigFormula",
            
            # Label it longentry
            label = "longentry")
+
+#CHAPTER 5
+# Fill in the rule's type as exit
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+ 
+# Fill in the sigcol argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the sigval argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the orderqty argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the ordertype argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the orderside argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "filterexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the replace argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "thresholdexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Fill in the prefer argument in add.rule()
+add.rule(strategy.st, name = "ruleSignal", 
+         arguments = list(sigcol = "thresholdexit", sigval = TRUE, orderqty = "all", 
+                        ordertype = "market", orderside = "long", 
+                        replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+# Create an entry rule of 1 share when all conditions line up to enter into a position
+add.rule(strategy.st, name = "ruleSignal", 
+         
+         # Use the longentry column as the sigcol
+         arguments=list(sigcol = "longentry", 
+                        
+                        # Set sigval to TRUE
+                        sigval = TRUE, 
+                        
+                        # Set orderqty to 1
+                        orderqty = 1,
+                        
+                        # Use a market type of order
+                        ordertype = "market",
+                        
+                        # Take the long orderside
+                        orderside = "long",
+                        
+                        # Do not replace other signals
+                        replace = FALSE, 
+                        
+                        # Buy at the next day's opening price
+                        prefer = "Open"),
+         
+         # This is an enter type rule, not an exit
+         type = "enter")
+
+# Add a rule that uses an osFUN to size an entry position
+add.rule(strategy = strategy.st, name = "ruleSignal",
+         arguments = list(sigcol = "longentry", sigval = TRUE, ordertype = "market",
+                          orderside = "long", replace = FALSE, prefer = "Open",
+                          
+                          # Use the osFUN called osMaxDollar
+                          osFUN = osMaxDollar,
+                          
+                          # The tradeSize argument should be equal to tradesize (defined earlier)
+                          tradeSize = tradesize,
+                          
+                          # The maxSize argument should be equal to tradesize as well
+                          maxSize = tradesize),
+         type = "enter")
